@@ -18,10 +18,12 @@
 
 - 点击插件图标直接打开 Chrome 侧边栏
 - 全文搜索：标题和正文都会匹配
-- 一键复制，复制后有明确反馈
+- 普通提示词可一键复制，复制后有明确反馈
+- 分步提示词可在录入时启用；每一步单独填写，并可选填步骤名称
+- 点击分步提示词卡片打开步骤列表，可单独复制所需步骤；复制后仍停留在步骤列表
 - 新增 / 编辑用弹窗完成，不占用默认列表空间
 - 本地 `chrome.storage.local` 保存
-- 支持 JSON 导入 / 导出
+- 支持 JSON 导入 / 导出；导出文件名为 `son-quickprompt-YYYY-MM-DD.json`
 - 全新安装默认不附带提示词，可自行新增或导入 JSON
 
 ### 安装
@@ -39,8 +41,10 @@
 常见操作：
 
 - 搜索 `标题`、`公众号`、`GEO`、`标题优化` 等关键词。
-- 点击列表里的“复制”按钮。
-- 点击“新增”，在弹窗里保存自己的提示词。
+- 普通提示词：点击列表卡片复制整条内容。
+- 分步提示词：点击卡片展开步骤列表，再点击对应步骤的“复制本步”。
+- 点击“新增”，在弹窗里录入提示词；需要分步时勾选“这是分步提示词”，添加步骤并填写内容，名称可选。
+- 在设置中可导入或导出 JSON；导出的文件名会带上导出日期。
 
 ### 权限说明
 
@@ -69,11 +73,13 @@
 
 - Opens the Chrome side panel directly from the extension icon
 - Full-text search across titles and content
-- One-click copy with visual feedback
+- One-click copy with visual feedback for regular prompts
+- Multi-step prompts with individually entered steps and optional step names
+- Clicking a multi-step prompt opens its step list; copy a step without leaving the list
 - Dialog-based add/edit flow
 - Favorites
 - Local storage via `chrome.storage.local`
-- JSON import/export
+- JSON import/export; exported files use `son-quickprompt-YYYY-MM-DD.json`
 - No bundled prompts on a fresh install; add your own or import a JSON file
 
 ### Install
