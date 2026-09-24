@@ -1,5 +1,7 @@
 (function (root) {
   const STORAGE_KEY = "qiaomuQuickPromptItems";
+  const DEFAULTS_VERSION_KEY = "sonQuickPromptDefaultsVersion";
+  const DEFAULTS_VERSION = 1;
   function getFromStorage(keys) {
     return chrome.storage.local.get(keys);
   }
@@ -42,34 +44,60 @@
   }
 
   async function ensureSeedData() {
-    const result = await getFromStorage(STORAGE_KEY);
+    const result = await getFromStorage([STORAGE_KEY, DEFAULTS_VERSION_KEY]);
     const updates = {};
+    let items = result[STORAGE_KEY];
+    const needsDefaults = result[DEFAULTS_VERSION_KEY] !== DEFAULTS_VERSION;
 
-    if (!Array.isArray(result[STORAGE_KEY])) {
-      updates[STORAGE_KEY] = [];
-    } else {
-      let removedFields = false;
-      const items = result[STORAGE_KEY].map((item) => {
-        if (!item || typeof item !== "object" || Array.isArray(item)) {
-          return item;
-        }
+    if (!Array.isArray(items)) {
+      items = [];
+    }
 
-        if (!["category", "promptType", "shortcut", "tags"].some((key) => Object.prototype.hasOwnProperty.call(item, key))) {
-          return item;
-        }
-
-        removedFields = true;
-        const remainingItem = Object.assign({}, item);
-        delete remainingItem.category;
-        delete remainingItem.promptType;
-        delete remainingItem.shortcut;
-        delete remainingItem.tags;
-        return remainingItem;
-      });
-
-      if (removedFields) {
-        updates[STORAGE_KEY] = items;
+    let itemsChanged = !Array.isArray(result[STORAGE_KEY]);
+    items = items.map((item) => {
+      if (!item || typeof item !== "object" || Array.isArray(item)) {
+        return item;
       }
+
+      if (!["category", "promptType", "shortcut", "tags"].some((key) => Object.prototype.hasOwnProperty.call(item, key))) {
+        return item;
+      }
+
+      itemsChanged = true;
+      const remainingItem = Object.assign({}, item);
+      delete remainingItem.category;
+      delete remainingItem.promptType;
+      delete remainingItem.shortcut;
+      delete remainingItem.tags;
+      return remainingItem;
+    });
+
+    if (needsDefaults) {
+      const response = await fetch(chrome.runtime.getURL("default-prompts.json"));
+      if (!response.ok) {
+        throw new Error("无法读取内置默认提示词。");
+      }
+
+      const payload = await response.json();
+      if (!Array.isArray(payload.items)) {
+        throw new Error("内置默认提示词格式无效。");
+      }
+
+      const existingIds = new Set(items.map((item) => item?.id).filter(Boolean));
+      const missingItems = payload.items
+        .filter((item) => item && item.id && !existingIds.has(item.id))
+        .map(normalizeItem);
+
+      if (missingItems.length > 0) {
+        items = items.concat(missingItems);
+        itemsChanged = true;
+      }
+
+      updates[DEFAULTS_VERSION_KEY] = DEFAULTS_VERSION;
+    }
+
+    if (itemsChanged) {
+      updates[STORAGE_KEY] = items;
     }
 
     if (Object.keys(updates).length > 0) {

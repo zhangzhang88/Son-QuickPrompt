@@ -24,7 +24,8 @@
 - 新增 / 编辑用弹窗完成，不占用默认列表空间
 - 本地 `chrome.storage.local` 保存
 - 支持 JSON 导入 / 导出；导出文件名为 `son-quickprompt-YYYY-MM-DD.json`
-- 全新安装默认不附带提示词，可自行新增或导入 JSON
+- 全新安装会载入仓库附带的 7 条默认提示词
+- 已安装用户升级后会一次性补充缺少的默认提示词，不覆盖已有条目
 
 ### 安装
 
@@ -80,7 +81,8 @@
 - Favorites
 - Local storage via `chrome.storage.local`
 - JSON import/export; exported files use `son-quickprompt-YYYY-MM-DD.json`
-- No bundled prompts on a fresh install; add your own or import a JSON file
+- Includes seven bundled prompts on a fresh install
+- Existing installs receive missing bundled prompts once without overwriting existing entries
 
 ### Install
 
