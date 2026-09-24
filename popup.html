@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>儿子快捷提示词</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="popup-body">
+  <main class="popup-shell">
+    <header class="popup-header">
+      <div>
+        <h1>儿子快捷提示词</h1>
+        <p>提示词与常用语</p>
+      </div>
+      <button class="icon-button" id="openSidePanel" title="打开侧边栏" aria-label="打开侧边栏">↗</button>
+    </header>
+
+    <label class="search-box compact-search">
+      <span class="sr-only">搜索</span>
+      <input id="searchInput" type="search" placeholder="标题、内容">
+    </label>
+
+    <section class="toolbar-row" aria-label="筛选">
+      <button class="chip is-active" data-filter="all">全部</button>
+      <button class="chip" data-filter="favorite">收藏</button>
+      <button class="chip" data-filter="recent">最近</button>
+    </section>
+
+    <section class="prompt-list compact" id="promptList" aria-live="polite"></section>
+
+    <div class="image-preview-overlay popup-preview-overlay" id="imagePreviewOverlay" hidden>
+      <section class="image-preview-panel popup-preview-panel" role="dialog" aria-modal="true" aria-labelledby="previewTitle">
+        <button type="button" class="icon-button preview-close" id="closePreviewButton" aria-label="关闭参考图">×</button>
+        <div class="image-preview-media">
+          <img id="previewImage" alt="">
+        </div>
+        <div class="image-preview-content">
+          <div class="meta-row" id="previewMeta"></div>
+          <h2 id="previewTitle"></h2>
+          <p id="previewPrompt"></p>
+          <div class="editor-actions preview-actions">
+            <button type="button" class="secondary-button" id="previewCopyButton">复制提示词</button>
+            <a class="secondary-button" id="previewSourceLink" target="_blank" rel="noreferrer">来源</a>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <footer class="popup-footer">
+      <button class="secondary-button" id="manageButton">管理全部</button>
+    </footer>
+  </main>
+
+  <script src="storage.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+{
+  "manifest_version": 3,
+  "name": "儿子快捷提示词",
+  "version": "0.1.0",
+  "minimum_chrome_version": "116",
+  "description": "Manage, search, and copy your prompts from the Chrome side panel.",
+  "permissions": ["storage", "clipboardWrite", "sidePanel", "activeTab"],
+  "action": {
+    "default_title": "儿子快捷提示词",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+P",
+        "mac": "Command+Shift+P"
+      }
+    }
+  }
+}
